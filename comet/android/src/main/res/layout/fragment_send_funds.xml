@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="?attr/colorSurface"
+        android:elevation="2dp">
+
+        <TextView
+            style="@style/TextAppearance.App.TitleBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/button_send" />
+
+    </FrameLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <FrameLayout
+            style="@style/width_match_parent_max_500"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardview_tx_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/activity_horizontal_margin">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/wallet_name"
+                        style="@style/TextAppearance.App.Body1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="@string/label_send_from" />
+
+                    <TextView
+                        android:id="@+id/address_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:ellipsize="end"
+                        android:gravity="start"
+                        android:maxLines="1"
+                        android:textAppearance="@style/TextAppearance.App.Body1"
+                        android:textColor="?attr/colorSecondary"
+                        android:textStyle="bold"
+                        app:drawableEndCompat="@drawable/ic_drop_down_24"
+                        app:drawableTint="?android:textColor"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/wallet_name"
+                        tools:text="Address label" />
+
+                    <TextView
+                        android:id="@+id/tv_balance"
+                        style="@style/TextAppearance.App.Body1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="@id/wallet_name"
+                        app:layout_constraintStart_toStartOf="@id/wallet_name"
+                        app:layout_constraintTop_toBottomOf="@id/address_label"
+                        tools:text="@string/label_wallet_balance" />
+
+                    <TextView
+                        android:id="@+id/hint_readonly"
+                        style="@style/TextAppearance.App.Body2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/half_horizontal_margin"
+                        android:layout_marginTop="@dimen/half_horizontal_margin"
+                        android:background="@drawable/background_emphasize"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="3dp"
+                        android:text="@string/hint_read_only"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_balance"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/desc"
+                        style="@style/TextAppearance.App.Body1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:text="@string/desc_send_funds"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/wallet_name"
+                        app:layout_constraintTop_toBottomOf="@id/hint_readonly" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/ti_message"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/label_purpose"
+                        app:endIconDrawable="@drawable/ic_info_24"
+                        app:endIconMode="custom"
+                        app:layout_constraintEnd_toEndOf="@id/tv_receiver"
+                        app:layout_constraintStart_toStartOf="@id/tv_receiver"
+                        app:layout_constraintTop_toBottomOf="@id/tv_receiver">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:inputType="text"
+                            android:maxLength="1000" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/amount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:hint="@string/label_amount"
+                        app:endIconDrawable="@drawable/ic_use_all_24"
+                        app:endIconMode="custom"
+                        app:layout_constraintEnd_toEndOf="@id/ti_message"
+                        app:layout_constraintStart_toStartOf="@id/ti_message"
+                        app:layout_constraintTop_toBottomOf="@id/ti_message">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionDone"
+                            android:inputType="numberDecimal" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tv_receiver"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/half_horizontal_margin"
+                        android:hint="@string/label_receiver_address"
+                        app:endIconDrawable="@drawable/ic_perm_contact_24"
+                        app:endIconMode="custom"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/desc">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:inputType="text"
+                            android:maxLines="1" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/tv_fiat"
+                        style="@style/TextAppearance.App.Fiat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="4dp"
+                        android:gravity="end"
+                        android:visibility="gone"
+                        app:drawableEndCompat="@drawable/ic_edit_note_24"
+                        app:layout_constraintEnd_toEndOf="@id/amount"
+                        app:layout_constraintTop_toBottomOf="@id/amount"
+                        tools:text="@string/label_fiat_amount"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/tv_fee"
+                        style="@style/TextAppearance.App.Body1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="@dimen/half_horizontal_margin"
+                        app:layout_constraintEnd_toEndOf="@id/amount"
+                        app:layout_constraintStart_toStartOf="@id/amount"
+                        app:layout_constraintTop_toBottomOf="@id/tv_fiat"
+                        tools:text="@string/desc_fee" />
+
+                    <org.fabiomsr.moneytextview.MoneyTextView
+                        android:id="@+id/gross_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="@dimen/activity_vertical_margin"
+                        app:baseTextSize="@dimen/headline1_textsize"
+                        app:baseTextStyle="bold"
+                        app:decimalDigitsTextSize="@dimen/body1_textsize"
+                        app:decimalMargin="4dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_fee"
+                        app:symbolMargin="6dp" />
+
+                    <LinearLayout
+                        android:id="@+id/tokens_list"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:animateLayoutChanges="true"
+                        android:orientation="vertical"
+                        android:paddingVertical="@dimen/half_horizontal_margin"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/gross_amount"
+                        app:layout_constraintWidth_max="600dp"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/label_token_amount_error"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                        android:gravity="center"
+                        android:text="@string/error_token_amount"
+                        android:textColor="?attr/colorError"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tokens_list" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_add_token"
+                        style="@style/Widget.App.Button.PrimaryTint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:elegantTextHeight="true"
+                        android:text="@string/label_add_token"
+                        android:visibility="invisible"
+                        app:icon="@drawable/ic_add_24"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/button_send" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_send"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="@dimen/half_horizontal_margin"
+                        android:elegantTextHeight="true"
+                        android:paddingStart="@dimen/margin_and_half"
+                        android:paddingEnd="@dimen/margin_and_half"
+                        android:text="@string/button_send"
+                        app:icon="@drawable/ic_send_24"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/label_token_amount_error" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardview_tx_done"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:visibility="gone">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin">
+
+                    <ImageView
+                        android:id="@+id/logo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_add_task_100"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/primary" />
+
+                    <TextView
+                        android:id="@+id/desc_tx_done"
+                        style="@style/TextAppearance.App.Body1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:gravity="center"
+                        android:text="@string/desc_transaction_send"
+                        app:layout_constraintTop_toBottomOf="@id/logo" />
+
+                    <TextView
+                        android:id="@+id/label_tx_id"
+                        style="@style/TextAppearance.App.Body1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/half_horizontal_margin"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@id/button_share_tx"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/desc_tx_done"
+                        tools:text="This is a very long\ntx id" />
+
+                    <ImageButton
+                        android:id="@+id/button_share_tx"
+                        style="@style/Widget.App.Button.TextButton"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_share_24"
+                        app:layout_constraintBottom_toBottomOf="@id/label_tx_id"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/label_tx_id" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_dismiss"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:elegantTextHeight="true"
+                        android:text="@string/button_done"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/label_tx_id" />
+
+                    <TextView
+                        android:id="@+id/tv_rate"
+                        style="@style/TextAppearance.App.Body1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/margin_and_half"
+                        android:text="@string/desc_please_rate"
+                        app:layout_constraintTop_toBottomOf="@id/button_dismiss" />
+
+                    <Button
+                        android:id="@+id/button_rate"
+                        style="@style/Widget.App.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="120dp"
+                        android:text="@string/button_please_rate"
+                        android:textColor="@color/primary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_rate" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+        </FrameLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

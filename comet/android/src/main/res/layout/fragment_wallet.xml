@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorSurface"
+        android:elevation="2dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin">
+
+            <FrameLayout
+                android:id="@+id/ergo_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/ergo_logo_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_ergologo_bg" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_ergologo_sigma" />
+
+                <ImageView
+                    android:id="@+id/connection_error"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|bottom"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_cloud_off_24"
+                    android:visibility="invisible"
+                    app:tint="@color/primary"
+                    tools:visibility="visible" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/label_ergo_price"
+                style="@style/TextAppearance.App.Fiat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="@string/label_erg_price"
+                app:layout_constraintBottom_toTopOf="@id/synctime"
+                app:layout_constraintStart_toStartOf="@id/synctime" />
+
+            <org.fabiomsr.moneytextview.MoneyTextView
+                android:id="@+id/ergo_price"
+                style="@style/MoneyTextViewFiatStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3sp"
+                android:ellipsize="middle"
+                android:singleLine="true"
+                android:visibility="gone"
+
+                app:baseTextColor="@color/lightgrey"
+                app:layout_constraintBottom_toBottomOf="@id/label_ergo_price"
+                app:layout_constraintStart_toEndOf="@id/label_ergo_price"
+                tools:amount="10.12"
+                tools:symbol="EUR"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/synctime"
+                style="@style/TextAppearance.App.Fiat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/margin_and_half"
+                android:singleLine="true"
+                android:text="@string/label_last_sync"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ergo_logo" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/button_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginHorizontal="@dimen/half_horizontal_margin"
+            android:layout_marginBottom="4dp"
+            android:contentDescription="@string/label_scan_qr"
+            android:padding="@dimen/half_horizontal_margin"
+            android:src="@drawable/ic_qr_code_scanner_24"
+            app:tint="@color/text_color" />
+
+
+    </FrameLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".wallet.WalletFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/card_wallet" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <include
+        android:id="@+id/empty_view"
+        layout="@layout/fragment_add_wallet_chooser"
+        android:visibility="gone" />
+
+</LinearLayout>

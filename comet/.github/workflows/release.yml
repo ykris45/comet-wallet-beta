@@ -1,0 +1,87 @@
+name: Releases
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Setup Android build environment
+        uses: android-actions/setup-android@v2.0.2
+      - name: Generate debug keystore
+        run: keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "C=US, O=Android, CN=Android Debug"
+      - name: Move debug keystore
+        run: mkdir ~/.android
+      - name: Move debug keystore
+        run: mv debug.keystore ~/.android/debug.keystore
+      - name: Build Android debug apks
+        run: ./gradlew clean android:assembleDebug
+      - name: Build desktop macos-x64
+        run: ./gradlew desktop:build -Posarch=macos-x64
+      - name: Build desktop windows-x64
+        run: ./gradlew desktop:build -Posarch=windows-x64
+      - name: Build desktop linux-arm64
+        run: ./gradlew desktop:build -Posarch=linux-arm64
+      - name: Build desktop linux-x64
+        run: ./gradlew desktop:build -Posarch=linux-x64
+      - name: Upload release binaries
+        uses: alexellis/upload-assets@0.2.2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          asset_paths: '["desktop/build/libs/ergo-wallet-app*64.jar", "android/build/outputs/apk/ergotestnet/debug/android-ergotestnet-debug.apk", "android/build/outputs/apk/ergomainnet/debug/android-ergomainnet-debug.apk"]'
+      - name: Upload windows artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows-jar
+          path: desktop/build/libs/ergo-wallet-app*windows-x64.jar
+          retention-days: 1
+
+  build-windows-installer:
+    name: Build Installer on Windows
+    runs-on: windows-latest
+    needs: [build]
+    steps:
+
+      - id: checkout-code
+        name: Checkout code
+        uses: actions/checkout@v2
+      - id: setup-jdk
+        name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Setup Android build environment
+        uses: android-actions/setup-android@v2.0.2
+      - name: Download windows build
+        uses: actions/download-artifact@v2.0.5
+        with:
+          name: windows-jar
+          path: desktop/build/libs
+      - name: Prepare jpackage config
+        run: ./gradlew desktop:prepareJpackage
+      - id: build
+        name: Build distribution
+        run: |
+          jpackage --verbose "@desktop/build/generated/jpackage.cfg" "@desktop/deploy/jpackage-windows.cfg"
+      - name: Upload release binaries
+        uses: alexellis/upload-assets@0.2.2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          asset_paths: '["desktop/build/windows/*"]'

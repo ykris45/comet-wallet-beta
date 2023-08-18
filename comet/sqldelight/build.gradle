@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+    id 'kotlin'
+    id 'com.squareup.sqldelight'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+sqldelight {
+    AppDatabase {
+        packageName = "org.ergoplatform.persistance"
+    }
+}
+
+dependencies {
+    implementation project(path: ':common-jvm')
+    api "com.squareup.sqldelight:coroutines-extensions-jvm:$sqldelight_version"
+
+    testImplementation "com.squareup.sqldelight:sqlite-driver:$sqldelight_version"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:$mockito_version"
+    testImplementation "junit:junit:$junit_version"
+}
